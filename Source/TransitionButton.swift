@@ -93,7 +93,7 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
         self.cachedTitle            = title(for: .normal)  // cache title before animation of spiner
         self.cachedImage            = image(for: .normal)  // cache image before animation of spiner
         
-        self.setTitle("",  for: .normal)                    // place an empty string as title to display a spiner
+        //self.setTitle("",  for: .normal)                    // place an empty string as title to display a spiner
         self.setImage(nil, for: .normal)                    // remove the image, if any, before displaying the spinner
         
         UIView.animate(withDuration: 0.1, animations: { () -> Void in
@@ -154,7 +154,7 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
         self.layer.add(keyFrame, forKey: keyFrame.keyPath)
     }
     private func setOriginalTitle() {
-      self.setTitle(self.cachedTitle, for: .normal)
+      //self.setTitle(self.cachedTitle, for: .normal)
     }
     private func setOriginalState() {
         self.animateToOriginalWidth()
