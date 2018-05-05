@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 /**
-Stop animation style of the `TransitionButton`.
+ Stop animation style of the `TransitionButton`.
  
  - normal: just revert the button to the original state.
  - expand: expand the button and cover all the screen, useful to do transit animation.
@@ -26,7 +26,7 @@ public enum StopAnimationStyle {
 
 
 /// UIButton sublass for loading and transition animation. Useful for network based application or where you need to animate an action button while doing background tasks.
- 
+
 open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, CAAnimationDelegate {
     
     /// the color of the spinner while animating the button
@@ -95,7 +95,7 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
         self.cachedImage            = image(for: .normal)  // cache image before animation of spiner
         self.cachedTitleColor        = titleColor(for: .normal)
         //self.setTitle("",  for: .normal)                    // place an empty string as title to display a spiner
-        self.setTitleColor(UIColor.clearColor(), forState: .normal)
+        self.setTitleColor(UIColor.clear, for: .normal)
         self.setImage(nil, for: .normal)                    // remove the image, if any, before displaying the spinner
         
         UIView.animate(withDuration: 0.1, animations: { () -> Void in
@@ -153,17 +153,17 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
         self.layer.position = point
         self.layer.add(keyFrame, forKey: keyFrame.keyPath)
     }
-  
+    
     private func setOriginalState() {
-       //self.setTitle(self.cachedTitle, for: .normal)
+        //self.setTitle(self.cachedTitle, for: .normal)
         self.animateToOriginalWidth()
         self.spiner.stopAnimation()
-        self.setTitleColor(self.cachedColor, forState: .normal)
+        self.setTitleColor(self.cachedTitleColor, for: .normal)
         self.setImage(self.cachedImage, for: .normal)
         self.isUserInteractionEnabled = true // enable again the user interaction
         self.layer.cornerRadius = self.cornerRadius
     }
- 
+    
     private func animateToOriginalWidth() {
         let shrinkAnim = CABasicAnimation(keyPath: "bounds.size.width")
         shrinkAnim.fromValue = (self.bounds.height)
@@ -226,6 +226,5 @@ public extension UIImage {
         self.init(cgImage: cgImage)
     }
 }
-
 
 
