@@ -58,6 +58,7 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
     }()
     
     private var cachedTitle: String?
+    private var cachedTitleColor: UIColor?
     private var cachedImage: UIImage?
     
     private let springGoEase:CAMediaTimingFunction  = CAMediaTimingFunction(controlPoints: 0.45, -0.36, 0.44, 0.92)
@@ -92,8 +93,9 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
         self.isUserInteractionEnabled = false // Disable the user interaction during the animation
         self.cachedTitle            = title(for: .normal)  // cache title before animation of spiner
         self.cachedImage            = image(for: .normal)  // cache image before animation of spiner
-        
+        self.cachedTitleColor        = titleColor(for: .normal)
         //self.setTitle("",  for: .normal)                    // place an empty string as title to display a spiner
+        self.setTitleColor(UIColor.clearColor(), forState: .normal)
         self.setImage(nil, for: .normal)                    // remove the image, if any, before displaying the spinner
         
         UIView.animate(withDuration: 0.1, animations: { () -> Void in
@@ -116,14 +118,12 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
         
         switch animationStyle {
         case .normal:
-            setOriginalTitle()
             completion?()
             // We return to original state after a delay to give opportunity to custom transition
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 self.setOriginalState()
             }
         case .shake:
-            setOriginalTitle()
             completion?()
             // We return to original state after a delay to give opportunity to custom transition
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
@@ -153,13 +153,12 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
         self.layer.position = point
         self.layer.add(keyFrame, forKey: keyFrame.keyPath)
     }
-    private func setOriginalTitle() {
-      //self.setTitle(self.cachedTitle, for: .normal)
-    }
+  
     private func setOriginalState() {
+       //self.setTitle(self.cachedTitle, for: .normal)
         self.animateToOriginalWidth()
         self.spiner.stopAnimation()
-        
+        self.setTitleColor(self.cachedColor, forState: .normal)
         self.setImage(self.cachedImage, for: .normal)
         self.isUserInteractionEnabled = true // enable again the user interaction
         self.layer.cornerRadius = self.cornerRadius
