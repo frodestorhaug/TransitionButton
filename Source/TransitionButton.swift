@@ -116,12 +116,14 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
         
         switch animationStyle {
         case .normal:
+            setOriginalTitle()
             completion?()
             // We return to original state after a delay to give opportunity to custom transition
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 self.setOriginalState()
             }
         case .shake:
+            setOriginalTitle()
             completion?()
             // We return to original state after a delay to give opportunity to custom transition
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
@@ -151,11 +153,13 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
         self.layer.position = point
         self.layer.add(keyFrame, forKey: keyFrame.keyPath)
     }
-    
+    private func setOriginalTitle() {
+      self.setTitle(self.cachedTitle, for: .normal)
+    }
     private func setOriginalState() {
         self.animateToOriginalWidth()
         self.spiner.stopAnimation()
-        self.setTitle(self.cachedTitle, for: .normal)
+        
         self.setImage(self.cachedImage, for: .normal)
         self.isUserInteractionEnabled = true // enable again the user interaction
         self.layer.cornerRadius = self.cornerRadius
