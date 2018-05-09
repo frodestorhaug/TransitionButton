@@ -118,16 +118,18 @@ open class TransitionButton : UIButton, UIViewControllerTransitioningDelegate, C
         
         switch animationStyle {
         case .normal:
-            completion?()
+            
             // We return to original state after a delay to give opportunity to custom transition
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 self.setOriginalState()
+                completion?()
             }
         case .shake:
-            completion?()
+            
             // We return to original state after a delay to give opportunity to custom transition
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 self.setOriginalState()
+                completion?()
                 self.shakeAnimation()
             }
         case .expand:
